@@ -1,15 +1,9 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
+import { quoteFetcher as fetcher } from "../services";
+
 import RefreshIcon from "./icons/RefreshIcon";
-
-const fetcher = async () => {
-  const response = await fetch(`https://type.fit/api/quotes`);
-  const data = await response.json();
-  const random = Math.floor(Math.random() * 1643);
-
-  return data[random];
-};
 
 export default function Quote() {
   const { data, isFetching, refetch, error } = useQuery(["quote"], fetcher, {
