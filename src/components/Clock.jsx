@@ -15,7 +15,7 @@ export default function Clock() {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
-    refetchInterval: 60000,
+    refetchInterval: 10000,
   });
 
   const toggle = () => {
