@@ -44,9 +44,49 @@ export default function Clock() {
   const district = data.geo.district;
   const country = data.geo.country_code3;
   const dayTime = getDayTime(time);
+  const timezone = data.timezone;
+  const week = data.week;
 
-  console.log(time, timeInPM, city, district, country, dayTime);
-  console.log(data);
+  const getDayOfTheYear = () => {
+    const now = new Date(data.date_time_txt);
+
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now - start + (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+    const oneDay = 1000 * 60 * 60 * 24;
+    const day = Math.floor(diff / oneDay);
+
+    return day;
+  };
+
+  const getDayOfTheWeek = () => {
+    const now = new Date(data.date_time_txt);
+    const day = now.getDay();
+
+    if (day === 0) {
+      return "Sunday";
+    }
+    if (day === 1) {
+      return "Monday";
+    }
+    if (day === 2) {
+      return "Tuesday";
+    }
+    if (day === 3) {
+      return "Wednesday";
+    }
+    if (day === 4) {
+      return "Thursday";
+    }
+    if (day === 5) {
+      return "Friday";
+    }
+    if (day === 6) {
+      return "Saturday";
+    }
+  };
+
+  getDayOfTheYear();
+  // console.log(getDayOfTheWeek());
 
   return (
     <div ref={ref} className="down">
