@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { getDayTime, getDayOfTheWeek, getDayOfTheYear } from "../utils/timeHelpers";
@@ -12,15 +12,27 @@ export default function Clock() {
   const buttonRef = useRef(null);
 
   const { data } = useQuery(["hour"], fetcher, {
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
     refetchInterval: 10000,
   });
 
+  useEffect(() => {
+    // We execute the same script as before
+    let vh = window.innerHeight * 0.01;
+
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    // We listen to the resize event
+    window.addEventListener("resize", () => {
+      // We execute the same script as before
+      let vh = window.innerHeight * 0.01;
+
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    });
+  }, []);
+
   const toggle = () => {
-    ref.current.classList.toggle("down");
-    ref.current.classList.toggle("up");
+    ref.current.classList.toggle("collapsed");
+    ref.current.classList.toggle("expand");
     buttonRef.current.classList.toggle("rotate");
     buttonRef.current.classList.toggle("rotateBack");
 
@@ -46,8 +58,8 @@ export default function Clock() {
   };
 
   return (
-    <div ref={ref} className="down">
-      <div className="w-9/12 mx-auto py-10 h-screen bg-transparent flex flex-col justify-between text-white">
+    <div ref={ref} className="collapsed">
+      <div className="hour w-9/12 mx-auto py-10 h-screen bg-transparent flex flex-col justify-between text-white">
         <Quote />
         <Hour buttonRef={buttonRef} hourProps={hourProps} toggle={toggle} />
       </div>

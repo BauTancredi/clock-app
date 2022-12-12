@@ -23,8 +23,8 @@ export default function Hour(props) {
           &nbsp; GOOD {dayTime.toUpperCase()}
           <span className="hidden md:block">, IT&apos;S CURRENTLY</span>
         </p>
-        <p className="text-8 xl md:text-9xl font-bold my-4">{time}</p>
-        <p className="text-xl tracking-widest mb-16 lg:mb-0">
+        <p className="text-8xl md:text-9xl font-bold my-4">{time}</p>
+        <p className="text-xl tracking-widest mb-8 md:mb-16 lg:mb-0">
           <strong>
             IN {city.toUpperCase()}, {country.toUpperCase()}
           </strong>

@@ -13,23 +13,29 @@ body {
   overflow: hidden;
 }
 
-.up {
+.hour {
+  height: 100vh;
+  /* Fallback for browsers that do not support Custom Properties */
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.expand {
   transform: translateY(-300px);
   transition: all 1s ease-in-out;
 }
 
-.down {
+.collapsed {
   transform: translateY(0px);
   transition: all 1s ease-in-out;
 }
 
-/* rotate svg icon */
+/* rotate svg arrow */
 .rotate svg {
   transform: rotate(180deg);
   transition: all 0.5s ease-in-out;
 }
 
-/* rotate svg icon */
+/* rotate svg arrow */
 .rotateBack svg {
   transform: rotate(0deg);
   transition: all 0.5s ease-in-out;
