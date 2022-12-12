@@ -1,11 +1,27 @@
 import React, { useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+import getDayTime from "../utils/timeHelpers";
 
 import Quote from "./Quote";
 import Hour from "./Hour";
 
+const fetcher = async () => {
+  const response = await fetch(
+    `https://api.ipgeolocation.io/timezone?apiKey=8ee02cd846b84e06848a0cb19156fe16`,
+  );
+  const data = await response.json();
+
+  return data;
+};
+
 export default function Clock() {
   const ref = useRef(null);
   const buttonRef = useRef(null);
+
+  const { data, isFetching, refetch, error } = useQuery(["hour"], fetcher, {
+    refetchOnWindowFocus: false,
+  });
 
   const toggle = () => {
     ref.current.classList.toggle("down");
@@ -17,6 +33,20 @@ export default function Clock() {
       ? (buttonRef.current.childNodes[0].innerHTML = "LESS")
       : (buttonRef.current.childNodes[0].innerHTML = "MORE");
   };
+
+  if (isFetching) {
+    return <div>Loading...</div>;
+  }
+
+  const time = data.time_24.slice(0, 5);
+  // const timeInPM = data.time_12.slice(0, 5) + data.time_12.slice(8, 11);
+  const city = data.geo.city;
+  const district = data.geo.district;
+  const country = data.geo.country_code3;
+  const dayTime = getDayTime(time);
+
+  console.log(time, timeInPM, city, district, country, dayTime);
+  console.log(data);
 
   return (
     <div ref={ref} className="down">
